@@ -1,12 +1,20 @@
 package cn.com.ssh.entity;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "customer")
+@DynamicInsert
+@DynamicUpdate
 public class Customer {
+    @Id
+    private int id;
     @Column(name = "c_name")
     private String cName;
     @Column(name = "simple_name")
@@ -19,6 +27,14 @@ public class Customer {
     private String address;
     @Column(name = "remark")
     private String remark;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getcName() {
         return cName;
@@ -71,7 +87,8 @@ public class Customer {
     @Override
     public String toString() {
         return "Customer{" +
-                "cName='" + cName + '\'' +
+                "id=" + id +
+                ", cName='" + cName + '\'' +
                 ", simpleName='" + simpleName + '\'' +
                 ", trade='" + trade + '\'' +
                 ", source='" + source + '\'' +

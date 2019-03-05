@@ -14,6 +14,11 @@ public class CustomerService {
     @Autowired
     private CustomerDao customerDao;
 
+    //查询全部数据
+    public List<Customer> getAll() {
+        return customerDao.getAll();
+    }
+
     //批量导入客户
     public boolean batchImport(String name, MultipartFile file) {
         boolean b = false;

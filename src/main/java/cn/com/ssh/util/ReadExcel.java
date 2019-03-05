@@ -1,14 +1,7 @@
 package cn.com.ssh.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import cn.com.ssh.entity.Customer;
+import org.apache.commons.fileupload.FileItem;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -17,6 +10,13 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ReadExcel {
@@ -74,12 +74,14 @@ public class ReadExcel {
         CommonsMultipartFile cf = (CommonsMultipartFile) Mfile; //获取本地存储路径
         File file = new File("D:/develop/fileupload/");
         //创建一个目录 （它的路径名由当前 File 对象指定，包括任一必须的父路径。）
-        if (!file.exists()) file.mkdirs();
+        if (!file.exists()) {
+            file.mkdirs();
+        }
         //新建一个文件
-        File file1 = new File("D:/develop/fileupload/" + new Date().getTime() + ".xlsx");
+        File file1 = new File("D:/develop/fileupload/" + System.currentTimeMillis() + ".xlsx");
         //将上传的文件写入新建的文件中
         try {
-            org.apache.commons.fileupload.FileItem fileItem = cf.getFileItem();
+            FileItem fileItem = cf.getFileItem();
             fileItem.write(file1);
         } catch (Exception e) {
             e.printStackTrace();
@@ -176,6 +178,7 @@ public class ReadExcel {
             for (int c = 0; c < this.totalCells; c++) {
                 Cell cell = row.getCell(c);
                 if (null != cell) {
+                    cell.setCellType(Cell.CELL_TYPE_STRING);
                     if (c == 0) {//第一列不读
                     } else if (c == 1) {
                         customer.setcName(cell.getStringCellValue());//客户名称
